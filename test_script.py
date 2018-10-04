@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import time
-#from rpi_ws281x import *
+from rpi_ws281x import *
 import argparse
 import random
 
@@ -40,7 +40,13 @@ def illuminateLights(strip):
 			strip.show
 			time.sleep(.05)
 			j+=3
-
+			
+def clearLights(strip):
+	for i in range(strip.numPixels):
+		strip.setPixelColor(i, Color(0,0,0))
+		strip.show
+		time.sleep(.01)
+		
 if __name__ == '__main__':
 	#maybe use argparser?
 	#parseFile()
@@ -48,14 +54,22 @@ if __name__ == '__main__':
 	#generateVals()
 	
 	# Create NeoPixel object with appropriate configuration.
-    strip = Adafruit_NeoPixel(LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL)
-    # Intialize the library (must be called once before other functions).
-    strip.begin()
-    
+	strip = Adafruit_NeoPixel(LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL)
+	# Intialize the library (must be called once before other functions).
+	strip.begin()
+	
 	RGB_VALS = parseFile()
 	print RGB_VALS
 	
 	try:
 		while True:
 			illuminateLights(strip)
-	except KeyboardInterrupt:	
+	except KeyboardInterrupt:
+		print('\nClearing lights')
+		clearLights(strip)
+			
+			
+			
+			
+			
+			
